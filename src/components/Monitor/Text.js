@@ -14,8 +14,7 @@ class Text extends React.Component {
         margin: "20px auto"
         }}>
 
-        <Sequence title={this.props.text.title}
-                  content={this.props.text.content} />
+        <Sequence title={this.props.text.title} content={this.props.text.content} />
         <Graph />
       </div>
     );

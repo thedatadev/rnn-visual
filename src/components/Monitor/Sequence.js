@@ -5,12 +5,16 @@ import Char from "./Char";
 class Sequence extends React.Component {
   constructor() {
     super();
-    this.getRandomColor = (colors) => colors[Math.floor(Math.random() * Math.floor(colors.length))];
+    this.getRandomColor = (colors) => {
+      const randomClass = Math.floor(Math.random() * Math.floor(colors.length));
+      const randomColor = Math.floor(Math.random() * Math.floor(colors[randomClass].length));
+      return colors[randomClass][randomColor]
+    };
   }
 
   render() {
 
-    const colors = [
+    const class1Colors = [
       "rgb(92, 203, 238)",
       "rgb(61, 191, 232)",
       "rgb(52, 168, 204)",
@@ -18,6 +22,17 @@ class Sequence extends React.Component {
       "rgb(31, 144, 180)",
       "rgb(23, 113, 142)"
     ];
+
+    const class2Colors = [
+      "rgb(240, 169, 169)",
+      "rgb(233, 140, 140)",
+      "rgb(238, 98, 98)",
+      "rgb(214, 69, 69)",
+      "rgb(198, 41, 41)",
+      "rgb(161, 21, 21)"
+    ];
+
+    const colors = [class1Colors, class2Colors];
 
 
     return (
