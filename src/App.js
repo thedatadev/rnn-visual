@@ -1,4 +1,5 @@
 import React from "react";
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { hot } from 'react-hot-loader/root';
 import Landing from "./components/Landing";
 import Monitor from "./components/Monitor";
@@ -12,8 +13,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <Landing />
-        <Monitor />
+        <Router>
+          <div className="routing">
+            <Route exact path="/" component={Landing} />
+            <Route exact path="/monitor" component={Monitor} />
+          </div>
+        </Router>
       </div>
     );
   }
