@@ -1,3 +1,3 @@
-export const getCount = store => store.count;
+export const getChoices = (store, choiceType) => store.choices[choiceType];
 
-export const getMessage = store => store.message;
+export const getChosen = (store, choiceType) => store.chosen[choiceType];

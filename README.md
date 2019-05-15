@@ -4,9 +4,6 @@ Visualisation of RNN classification segments in text and classification stabilit
 
 TODO:
   - 2. Components
-    - welcome page
-      - instruction
-      - model and data selection
     - monitor
       - loading spinner
       - text list
@@ -28,3 +25,4 @@ Notes and discoveries:
     - Invalid options can mess up the css-loader: https://github.com/webpack-contrib/css-loader/issues/863
     - naming of variables returned by mapStateToProps must be consistent with naming inside the components in which the variables are being used
     - use react-hot-loader instead of webpack's HMR
+    - "this" cannot be used to access props inside mapStateToProps unless you pass in ownProps as second parameter in mapStateToProps

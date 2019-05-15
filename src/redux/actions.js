@@ -1,3 +1,5 @@
-export const incrementCounter = () => ({
-  type: "increment"
+export const choose = (choiceType, choice) => ({
+  type: "makeChoice",
+  choiceType: choiceType,
+  choice: choice
 });
