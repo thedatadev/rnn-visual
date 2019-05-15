@@ -1,8 +1,13 @@
-const myReducer = (state = 0, action) => {
+const initialState = {
+  count: 0,
+  message: "RNN Visuals!"
+};
+
+const myReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case "increment": {
-      return state + 1;
+      return Object.assign({}, state, {count: state.count + 1})
     }
     default: {
       return state;

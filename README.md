@@ -3,8 +3,6 @@
 Visualisation of RNN classification segments in text and classification stability
 
 TODO:
-  - 1. Setup (from scratch)
-    - code organisation
   - 2. Components
     - welcome page
       - instruction

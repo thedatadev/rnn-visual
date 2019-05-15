@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { incrementCounter } from "./redux/actions";
+import { getCount, getMessage } from "./redux/selectors";
 import { hot } from 'react-hot-loader/root';
 
 import "../public/css/styles.css";
@@ -14,13 +15,14 @@ class App extends React.Component {
   render() {
     return (
       <div className="app">
-        <h1>Welcome to my app!?!!!</h1>
+        <h1>{this.props.message}</h1>
         <p id="count">Count: {this.props.count}</p>
         <button id="button"
                 type="button"
                 onClick={() => {
                   this.incrementCounter();
-                }}>Increment!</button>
+                }}
+                >Increment!</button>
       </div>
     );
   }
@@ -28,12 +30,11 @@ class App extends React.Component {
 
 
 const mapStateToProps = state => {
-  const count = state;
-  return { count };
+  const count = getCount(state);
+  const message = getMessage(state);
+  return { count, message };
 };
 
-const mapDispatchToProps = {
-  incrementCounter
-};
+const mapDispatchToProps = { incrementCounter };
 
-export default connect(mapStateToProps,mapDispatchToProps)(hot(App));
+export default connect(mapStateToProps, mapDispatchToProps)(hot(App));
