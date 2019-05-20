@@ -4,9 +4,7 @@ Visualisation of RNN classification segments in text and classification stabilit
 
 TODO:
   - 2. Components
-    - monitor
-      - loading spinner
-      - oscillatory graph
+    - oscillatory graph
   - 3. Model server
     - flask endpoints
       - receive model name
