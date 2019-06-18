@@ -15,41 +15,26 @@ class App extends React.Component {
 
       currentQuery: '',
 
-      mapping: {
-        'X': [],
-        'y': [],
-        'out': []
-      },
-
-      entries: [
-
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ",
-
-        "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        
-      ]
+      mappings: []
 
     }
+  }
+
+  componentWillMount() {
+
+    const api_endpoint = "http://127.0.0.1:4000/model";
+
+    const request = new Request(api_endpoint, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    fetch(request)
+      .then(response => response.json())
+        .then(data => this.setState({ mappings: data.articles }))
+
   }
 
   // Private member functions
@@ -57,9 +42,11 @@ class App extends React.Component {
     this.setState({currentQuery: e.target.value});
   }
 
-  filteredEntries = () => {
-    return this.state.entries.filter((entry) => {
-      return entry.includes(this.state.currentQuery);
+  filteredMappings = () => {
+    return this.state.mappings.filter((mapping) => {
+
+      return mapping[0].join("").includes(this.state.currentQuery);
+
     });
   }
 
@@ -70,7 +57,7 @@ class App extends React.Component {
 
         <Query handleInput={this.handleInput} />
 
-        <Results />
+        <Results filteredMappings={this.filteredMappings} />
 
       </div>
     );
