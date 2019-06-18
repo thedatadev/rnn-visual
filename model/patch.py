@@ -11,6 +11,7 @@ def load_mapping():
 
 if __name__ == "__main__":
 
+	#### Patch 1
     # X, y = load()
 
     # mapping = load_mapping()
@@ -28,4 +29,12 @@ if __name__ == "__main__":
 
     # save(new_mapping)
 
-    pass
+	#### Patch 1
+	# new_mapping_2 = [ (x, int(y), o) for x, y, o in load_mapping() ]
+	# save(new_mapping_2)
+	pass
+
+
+    
+
+
