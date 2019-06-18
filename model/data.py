@@ -124,6 +124,15 @@ def prepare(X, y):
     return X_tensor, y_tensor
 
 
+def training_data():
+
+    clean_X, clean_y = load()
+
+    train_X, train_y = prepare(clean_X, clean_y)
+
+    return clean_X, clean_y, train_X, train_y
+
+
 if __name__ == "__main__":
 
 
