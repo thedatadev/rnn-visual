@@ -1,0 +1,6 @@
+data/raw/*
+data/clean/*
+
+saved_model/*
+
+word2vec/pretrained/*
