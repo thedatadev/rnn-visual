@@ -77,8 +77,16 @@ def embed(X):
 def filter_empty(X_token, X_embed, y):
     print("filtering")
     ''' Filter out all empty articles '''
-    non_empty_indices = [idx for idx, article in enumerate(X_embed) if len(article) > 0]
-    X = pd.Series([ X_token[idx] for idx in non_empty_indices ])
+    non_empty_indices = [idx for idx, article in enumerate(X_embed) if len(article) > 0 ]
+    X = pd.Series([ X_token[idx] for idx in non_empty_indices  ])
+
+    X = []
+    model_path = "./word2vec/pretrained/word2vec.model.bin"
+    model = gensim.models.Word2Vec.load(model_path)
+    for idx in non_empty_indices:
+        clean_X_token = [ token for token in X_token[idx] if token in model.wv ]
+        X.append(clean_X_token)
+
     y = pd.Series([ y[idx] for idx in non_empty_indices ])
     return X, y
 
