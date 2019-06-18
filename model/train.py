@@ -109,7 +109,7 @@ def train(model, X, y):
             # Save the best model
             if current_accuracy > best_accuracy:
                 print(f"Current model has highest training accuracy of {current_accuracy}")
-                torch.save(model.state_dict(), f"saved_model/nhk_model")
+                torch.save(model.state_dict(), f"saved/nhk_model")
                 best_accuracy = int(current_accuracy)
 
             # Track statistics 

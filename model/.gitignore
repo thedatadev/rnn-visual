@@ -1,8 +1,10 @@
 data/raw/*
 data/clean/*
 
-saved_model/*
+saved/*
 
 word2vec/pretrained/*
+
+stats/*
 
 __pycache__

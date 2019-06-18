@@ -1,17 +1,11 @@
 '''
 https://pytorch.org/tutorials/beginner/saving_loading_models.html
 
-1. Instantiate a model with training set to False
-
-2. Load a pretrained model and use its weights
-
-3. Load the data
-
-4. Run 20 samples of the data into the model
-
-5. Serve its X, y and outputs to the client
-
 '''
+from data import training_data
+from model import RNN
+import pickle as pkl
+import torch
 
 def infer(model, input_tensor, class_tensor):
 
@@ -27,13 +21,10 @@ def infer(model, input_tensor, class_tensor):
 
     return output_sequence
 
-if __name__ == "__main__":
 
-    from data import training_data
-    from model import RNN
-    import torch
+def demo_data():
 
-    model_filepath = "saved_model/nhk_model"
+    model_filepath = "saved/nhk_model"
 
     rnn = RNN(training=False)
     rnn.load_state_dict(torch.load(model_filepath))
@@ -41,14 +32,43 @@ if __name__ == "__main__":
 
     clean_X, clean_y, train_X, train_y = training_data()
 
+    mapping = dict({
+        'X': clean_X.tolist(),
+        'y': clean_y.tolist(),
+        'out': []
+    })
+
     for idx in range(len(train_X)):
 
         if idx > 0 and (idx + 1) % 100 == 0:
-                print(f"Index: {idx + 1}")
+                print(f"Demo data index: {idx + 1}")
 
         article_tensor = train_X[idx]
 
         class_tensor = train_y[idx]
         
         output_sequence = infer(rnn, article_tensor, class_tensor)
+
+        mapping['out'].append(output_sequence)
+
+    return mapping
+
+
+def save(mapping):
+
+    with open("saved/mapping.pkl", "wb") as f:
+        pkl.dump(mapping, f)
+    
+    print("mapping saved")
+
+
+
+if __name__ == "__main__":
+
+    mapping = demo_data()
+    
+    save(mapping)
+    
+
+    
 
