@@ -11,11 +11,7 @@ class Results extends React.Component {
     super();
     this.state = {
 
-      mapping: {
-        'X': [],
-        'y': [],
-        'out': []
-      }
+      mappings: []
 
     }
   }
@@ -38,32 +34,30 @@ class Results extends React.Component {
 
     fetch(request)
       .then(response => response.json())
-        .then(data => this.setState({ mapping: data.mapping }))
+        .then(data => this.setState({ mappings: data.articles }))
 
   }
 
-  show = () => {
-    return <Entry entry={"hello world"} index={0} />
-  }
+
+  colorize = ( mappings ) => {
+
+    return mappings.map((mapping, index) => {
+
+      let [ x, y, out ] = mapping;
+
+      return <Entry x={x} y={y} out={out} key={index} />
 
 
-  getTexts = ( texts ) => {
-
-    return texts.map(tokens => tokens.join(""))
-
-  }
-
-  colorize = ( entry, index ) => {
-
-    return <Entry entry={entry} key={index} />
+    });
 
   }
+
 
   // Render function
   render() {
     return (
       <div className="results">
-        { this.getTexts(this.state.mapping.X).map(this.colorize) }
+        { this.colorize(this.state.mappings) }
       </div>
     );
   }
