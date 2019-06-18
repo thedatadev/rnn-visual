@@ -36,6 +36,7 @@ def raw():
 
 
 def save(X, y):
+    print("saving")
 
     X_path = os.path.abspath("data/clean/X.pkl")
     y_path = os.path.abspath("data/clean/y.pkl")
@@ -48,6 +49,7 @@ def save(X, y):
 
 
 def load():
+    print("loading")
 
     X_path = os.path.abspath("data/clean/X.pkl")
     y_path = os.path.abspath("data/clean/y.pkl")
@@ -64,8 +66,25 @@ def load():
     return X, y
 
 
+def embed(X):
+    print("embedding")
+    ''' Embed all articles in X '''
+    model_path = "./word2vec/pretrained/word2vec.model.bin"
+    model = gensim.models.Word2Vec.load(model_path)
+    return X.apply(lambda article: np.array([model.wv[token] for token in article if token in model.wv]))
+
+
+def filter_empty(X_token, X_embed, y):
+    print("filtering")
+    ''' Filter out all empty articles '''
+    non_empty_indices = [idx for idx, article in enumerate(X_embed) if len(article) > 0]
+    X = pd.Series([ X_token[idx] for idx in non_empty_indices ])
+    y = pd.Series([ y[idx] for idx in non_empty_indices ])
+    return X, y
+
 
 def clean(X, y):
+    print("cleaning")
     '''
 
     After tokenizing and embedding all texts, filter out all empty sequences.
@@ -79,23 +98,6 @@ def clean(X, y):
         ''' Tokenize all articles in X '''
         tagger = MeCab.Tagger("-Owakati")
         return X.apply(lambda article: tagger.parse(article).split())
-
-
-    def embed(X):
-        print("embedding")
-        ''' Embed all articles in X '''
-        model_path = "./word2vec/pretrained/word2vec.model.bin"
-        model = gensim.models.Word2Vec.load(model_path)
-        return X.apply(lambda article: np.array([model.wv[token] for token in article if token in model.wv]))
-
-
-    def filter_empty(X_token, X_embed, y):
-        print("filtering")
-        ''' Filter out all empty articles '''
-        non_empty_indices = [idx for idx, article in enumerate(X_embed) if len(article) > 0]
-        X = pd.Series([ X_token[idx] for idx in non_empty_indices ])
-        y = pd.Series([ y[idx] for idx in non_empty_indices ])
-        return X, y
     
     X_token = tokenize(X)
 
@@ -105,36 +107,39 @@ def clean(X, y):
 
     return X_filter, y_filter
 
-# def prepare(df):
 
-#     def tokenize(X):
-#         ''' Tokenize all articles in X '''
-#         tagger = MeCab.Tagger("-Owakati")
-#         return X.apply(lambda article: tagger.parse(article).split())
-
-#     def embed(X):
-#         ''' Embed all articles in X '''
-#         model_path = "./word2vec/pretrained/word2vec.model.bin"
-#         model = gensim.models.Word2Vec.load(model_path)
-#         return X.apply(lambda article: np.array([model.wv[token] for token in article if token in model.wv]))
-
-#     return []
+def tensorize(X, y):
+    print("tensorizing")
+    X = [ torch.tensor(article) for article in X ]
+    y = [ torch.tensor([category], dtype=torch.long) for category in y ]
+    return X, y
 
 
+def prepare(X, y):
+    print("preparing")
+    X_embed = embed(X)
 
+    X_tensor, y_tensor = tensorize(X_embed, y)
+
+    return X_tensor, y_tensor
 
 
 if __name__ == "__main__":
 
+
+    ### Clean raw training data and save
     # X, y = raw()
-
     # clean_X, clean_y = clean(X, y)
-
     # save(clean_X, clean_y)
 
-    clean_X, clean_y = load()
 
-    print(clean_X)
+    ### Prepare clean training data for model
+    # clean_X, clean_y = load()
+    # train_X, train_y = prepare(clean_X, clean_y)
+
+
+    pass
+
 
 
 
