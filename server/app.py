@@ -1,8 +1,9 @@
 from flask import Flask, jsonify
-
+from flask_cors import CORS
 import pickle as pkl
 
 app = Flask(__name__)
+CORS(app)
 
 ## Static server
 @app.route("/", methods=['GET'])
@@ -21,11 +22,7 @@ def model():
 
         mapping = pkl.load(f)
 
-        trim_X = mapping['X'][:20]
-        trim_y = mapping['y'][:20]
-        trim_out = mapping['out'][:20]
-
-        return jsonify(mapping={ "X": trim_X, "y": trim_y, "out": trim_out }), 200
+        return jsonify(articles=mapping[:20]), 200
     
 
 if __name__ == "__main__":
