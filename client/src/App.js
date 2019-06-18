@@ -15,6 +15,12 @@ class App extends React.Component {
 
       currentQuery: '',
 
+      mapping: {
+        'X': [],
+        'y': [],
+        'out': []
+      },
+
       entries: [
 
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
@@ -64,7 +70,7 @@ class App extends React.Component {
 
         <Query handleInput={this.handleInput} />
 
-        <Results filteredEntries={this.filteredEntries} />
+        <Results />
 
       </div>
     );

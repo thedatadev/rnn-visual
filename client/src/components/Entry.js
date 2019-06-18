@@ -4,13 +4,6 @@ import React from 'react';
 import './Entry.css';
 
 class Entry extends React.Component {
-  // Local state; private member variables
-  constructor() {
-    super();
-  }
-
-  // Private member functions
-  // ...
 
   // Render function
   render() {
