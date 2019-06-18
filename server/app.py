@@ -1,6 +1,6 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 
-import step
+import pickle as pkl
 
 app = Flask(__name__)
 
@@ -11,20 +11,23 @@ def index():
     return "<h1>Placeholder for final React.js SPA</h1>"
 
 ## Model server
-@app.route("/model")
+@app.route("/model", methods=['GET'])
 def model():
     ''' Serves predictions given the model and dataset '''
-    params = step._1_validate_params(request)
-    if not params:
-        return '', 400
-    dataset_path, model_path = params
+    
+    mapping_filepath = "../model/saved/mapping.pkl"
 
-    dataset = step._2_load_dataset(dataset_path)
-    model   = step._3_load_model(model_path)
+    with open(mapping_filepath, "rb") as f:
 
-    results = step._4_run(model, dataset)
+        mapping = pkl.load(f)
 
-    return step._5_serve_model(results), 200
+        trim_X = mapping['X'][:20]
+        trim_y = mapping['y'][:20]
+        trim_out = mapping['out'][:20]
+
+        return jsonify(mapping={ "X": trim_X, "y": trim_y, "out": trim_out }), 200
+    
 
 if __name__ == "__main__":
-    app.run(debug=true, port=4000)
+
+    app.run(debug=True, port=4000)
